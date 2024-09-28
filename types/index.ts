@@ -1,3 +1,6 @@
+// ====== USER PARAMS
+
+// Changes made
 export type CreateUserParams = {
     clerkId: string
     firstName: string
@@ -14,7 +17,8 @@ export type CreateUserParams = {
     username: string
     photo: string
   }
-
+  
+  // ====== EVENT PARAMS
   export type CreateEventParams = {
     userId: string
     event: {
@@ -97,10 +101,12 @@ export type CreateUserParams = {
     }
   }
   
+  // ====== CATEGORY PARAMS
   export type CreateCategoryParams = {
     categoryName: string
   }
   
+  // ====== ORDER PARAMS
   export type CheckoutOrderParams = {
     eventTitle: string
     eventId: string
@@ -128,6 +134,7 @@ export type CreateUserParams = {
     page: string | number | null
   }
   
+  // ====== URL QUERY PARAMS
   export type UrlQueryParams = {
     params: string
     key: string
