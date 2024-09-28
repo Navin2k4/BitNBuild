@@ -4,18 +4,23 @@ import React from 'react'
 import { Button } from '../ui/button'
 import NavItems from './NavItems'
 import MobileNav from './MobileNav'
+import Image from 'next/image'
 
 const Header = () => {
   return (
-    <header className="fixed top-0 left-0 w-full bg-transparent backdrop-blur-xl z-50 shadow-lg px-2 pt-2">
+    <header className="fixed top-0 left-0 bg-gradient-to-b from-black to-transparent w-full  backdrop-blur-xl z-50 shadow-xl px-2 pt-2">
       <div className="container mx-auto flex items-center justify-between py-4 px-6">
-        
-        {/* Brand/Logo Section */}
         <Link href="/" className="text-3xl font-extrabold tracking-tight text-white">
-          Evently
+          <Image 
+            src='/assets/images/logo.png'
+            height={10}
+            width={100}
+            alt='Eventify'
+          /> 
         </Link>
+        
+        <div className='flex gap-5'>
 
-        {/* Navigation for larger screens */}
         <SignedIn>
           <nav className="hidden md:flex space-x-10 text-lg font-semibold text-gray-200">
             <NavItems />
@@ -36,6 +41,7 @@ const Header = () => {
               </Link>
             </Button>
           </SignedOut>
+        </div>
         </div>
       </div>
     </header>

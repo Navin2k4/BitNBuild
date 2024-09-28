@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
 import { IEvent } from '@/lib/database/models/event.model';
 import { Button } from '../ui/button';
-import { checkoutOrder, createOrder } from '@/lib/actions/order.action'; // Import createOrder
+import { checkoutOrder, createOrder } from '@/lib/actions/order.action';
+import { getUserById } from '@/lib/actions/user.actions';
 
 interface RazorpayResponse {
   razorpay_payment_id: string;
@@ -28,6 +29,12 @@ const Checkout = ({ event, userId }: { event: IEvent, userId: string }) => {
   }, []);
 
   const onCheckout = async () => {
+    
+    const audio = new Audio('/assets/sounds/checkout-click.mp3'); 
+    audio.play();
+
+    const currentUser = await getUserById(userId);
+    
     const order = {
       eventTitle: event.title,
       eventId: event._id,
@@ -37,6 +44,7 @@ const Checkout = ({ event, userId }: { event: IEvent, userId: string }) => {
     };
     
     const res = await checkoutOrder(order);
+
     const { orderId, amount, currency, key } = res;
     
     const script = document.createElement('script');
@@ -69,9 +77,9 @@ const Checkout = ({ event, userId }: { event: IEvent, userId: string }) => {
           window.location.href = `${process.env.NEXT_PUBLIC_SERVER_URL}/profile`;
         },
         prefill: {
-          name: 'User Name',
-          email: 'user@example.com',
-          contact: '9999999999',
+          name: `${currentUser.firstName} ${currentUser.lastName}`,
+          email: currentUser.email,
+          contact: currentUser.phone ? currentUser.phone.replace('+', '') : '', 
         },
         theme: {
           color: '#b00403',
