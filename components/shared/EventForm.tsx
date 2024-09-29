@@ -22,12 +22,30 @@ import DropDown from "./DropDown";
 import { Textarea } from "../ui/textarea";
 import { FileUploader } from "./FileUploader";
 import { useState } from "react";
-import Image from "next/image";
 import { Checkbox } from "../ui/checkbox";
 import { useUploadThing } from "@/lib/uploadthing";
 import { useRouter } from "next/navigation";
 import { createEvent, updateEvent } from "@/lib/actions/event.action";
 import { IEvent } from "@/lib/database/models/event.model";
+import {
+  Calendar,
+  Link,
+  Locate,
+  LucideIndianRupee,
+  Map,
+  Plus,
+  Trash2,
+  UserPlus2,
+  Users,
+} from "lucide-react";
+import { Switch } from "@/components/ui/switch";
+import { motion } from "framer-motion";
+
+// Animation variants
+const variants = {
+  hidden: { opacity: 0, height: 0 },
+  visible: { opacity: 1, height: "auto" },
+};
 
 type EventFormProps = {
   userId: string;
@@ -37,14 +55,28 @@ type EventFormProps = {
 };
 
 const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
+  
   const [files, setFiles] = useState<File[]>([]);
 
+  const [showCoordinators, setShowCoordinators] = useState(false); 
+  const [coordinators, setCoordinators] = useState([
+    { name: "", email: "", phone: "" },
+  ]); // Default state
+  const handleDeleteCoordinator = (index:any) => {
+    setCoordinators((prevCoordinators) =>
+      prevCoordinators.filter((_, i) => i !== index)
+    );
+  };
+  
   const initialValues =
     event && type === "Update"
       ? {
           ...event,
           startDateTime: new Date(event.startDateTime),
           endDateTime: new Date(event.endDateTime),
+          registrationEndDate: event.registrationEndDate
+            ? new Date(event.registrationEndDate)
+            : undefined,
         }
       : eventDefaultValues;
 
@@ -66,10 +98,33 @@ const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
       uploadedImageUrl = uploadedImages[0].url;
     }
 
+    const eventCapacity =
+      values.eventCapacity && !isNaN(values.eventCapacity)
+        ? Number(values.eventCapacity)
+        : undefined;
+
+    const coordinators = values.coordinators || [];
+    const updatedValues = {
+      ...values,
+      eventCapacity,
+      coordinators: showCoordinators
+        ? coordinators.map((coordinator) => ({
+            name: coordinator.name || "",
+            email: coordinator.email || "",
+            phone: coordinator.phone || "",
+          }))
+        : [], // Use an empty array if toggled off
+    };
+    console.log(updatedValues);
+
     if (type === "Create") {
       try {
         const newEvent = await createEvent({
-          event: { ...values, imageUrl: uploadedImageUrl },
+          event: {
+            ...updatedValues,
+            eventCapacity,
+            imageUrl: uploadedImageUrl,
+          },
           userId,
           path: "/profile",
         });
@@ -81,6 +136,7 @@ const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
         console.log(error);
       }
     }
+
     if (type === "Update") {
       if (!eventId) {
         router.back();
@@ -90,7 +146,7 @@ const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
       try {
         const updatedEvent = await updateEvent({
           userId,
-          event: { ...values, imageUrl: uploadedImageUrl, _id: eventId },
+          event: { ...updatedValues, imageUrl: uploadedImageUrl, _id: eventId },
           path: `/events/${eventId}`,
         });
 
@@ -111,7 +167,6 @@ const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
         className="flex flex-col gap-5"
       >
         <div className="flex flex-col gap-5 md:flex-row">
-          {/* Event Title */}
           <FormField
             control={form.control}
             name="title"
@@ -128,7 +183,6 @@ const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
               </FormItem>
             )}
           />
-          {/* Event Category */}
           <FormField
             control={form.control}
             name="categoryId"
@@ -146,13 +200,12 @@ const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
           />
         </div>
         <div className="flex flex-col gap-5 md:flex-row">
-          {/* Description */}
           <FormField
             control={form.control}
             name="description"
             render={({ field }) => (
               <FormItem className="w-full">
-                <FormControl className=" h-72">
+                <FormControl className="h-72">
                   <Textarea
                     placeholder="Description"
                     {...field}
@@ -163,13 +216,12 @@ const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
               </FormItem>
             )}
           />
-          {/* Image */}
           <FormField
             control={form.control}
             name="imageUrl"
             render={({ field }) => (
               <FormItem className="w-full">
-                <FormControl className="h-52">
+                <FormControl className="h-72">
                   <FileUploader
                     onFieldChange={field.onChange}
                     imageUrl={field.value}
@@ -182,7 +234,6 @@ const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
           />
         </div>
         <div className="flex flex-col gap-5 md:flex-row">
-          {/* location */}
           <FormField
             control={form.control}
             name="location"
@@ -190,12 +241,7 @@ const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
               <FormItem className="w-full">
                 <FormControl>
                   <div className="flex-center h-[55px] w-full overflow-hidden rounded-full bg-grey-50 px-4 py-2">
-                    <Image
-                      src="/assets/icons/location-grey.svg"
-                      alt="location"
-                      height={24}
-                      width={24}
-                    />
+                    <Locate />
                     <Input
                       placeholder="Event Location or Online"
                       {...field}
@@ -207,9 +253,53 @@ const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
               </FormItem>
             )}
           />
+          <FormField
+            control={form.control}
+            name="mapLocation"
+            render={({ field }) => (
+              <FormItem className="w-full">
+                <FormControl>
+                  <div className="flex-center h-[55px] w-full overflow-hidden rounded-full bg-grey-50 px-4 py-2">
+                    <Map />
+                    <Input
+                      placeholder="Map Location URL Embedded Link (Optional)"
+                      {...field}
+                      className="input-field"
+                    />
+                  </div>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
         </div>
+        <FormField
+          control={form.control}
+          name="registrationEndDate"
+          render={({ field }) => (
+            <FormItem className="w-full">
+              <FormControl>
+                <div className="flex-center h-[54px] w-full overflow-hidden rounded-full bg-grey-50 px-4 py-2">
+                  <Calendar />
+
+                  <p className="ml-3 whitespace-nowrap text-gray-800">
+                    Registration End Date:
+                  </p>
+                  <DatePicker
+                    selected={field.value}
+                    onChange={(date: Date | null) => field.onChange(date)}
+                    showTimeSelect
+                    timeInputLabel="Time:"
+                    dateFormat="dd/MM/yyyy h:mm aa"
+                    wrapperClassName="datePicker"
+                  />
+                </div>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         <div className="flex flex-col gap-5 md:flex-row">
-          {/* Start Date */}
           <FormField
             control={form.control}
             name="startDateTime"
@@ -217,14 +307,9 @@ const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
               <FormItem className="w-full">
                 <FormControl>
                   <div className="flex-center h-[54px] w-full overflow-hidden rounded-full bg-grey-50 px-4 py-2">
-                    <Image
-                      src="/assets/icons/calendar.svg"
-                      alt="calendar"
-                      width={24}
-                      height={24}
-                    />
+                    <Calendar />
                     <p className="ml-3 whitespace-nowrap text-grey-600">
-                      Start Date:
+                      Event Start Date:
                     </p>
                     <DatePicker
                       selected={field.value}
@@ -240,7 +325,6 @@ const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
               </FormItem>
             )}
           />
-          {/* End Date */}
           <FormField
             control={form.control}
             name="endDateTime"
@@ -248,14 +332,10 @@ const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
               <FormItem className="w-full">
                 <FormControl>
                   <div className="flex-center h-[54px] w-full overflow-hidden rounded-full bg-grey-50 px-4 py-2">
-                    <Image
-                      src="/assets/icons/calendar.svg"
-                      alt="calendar"
-                      width={24}
-                      height={24}
-                    />
+                    <Calendar />
+
                     <p className="ml-3 whitespace-nowrap text-gray-800">
-                      End Date:
+                      Event End Date:
                     </p>
                     <DatePicker
                       selected={field.value}
@@ -272,8 +352,8 @@ const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
             )}
           />
         </div>
+
         <div className="flex flex-col gap-5 md:flex-row">
-          {/* Price */}
           <FormField
             control={form.control}
             name="price"
@@ -281,12 +361,7 @@ const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
               <FormItem className="w-full">
                 <FormControl>
                   <div className="flex-center h-[54px] w-full overflow-hidden rounded-full bg-grey-50 px-4 py-2">
-                    <Image
-                      src="/assets/icons/dollar.svg"
-                      alt="dollar"
-                      width={24}
-                      height={24}
-                    />
+                    <LucideIndianRupee />
                     <Input
                       type="number"
                       placeholder="Price per person"
@@ -294,7 +369,6 @@ const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
                       className="p-regular-16 border-0 bg-grey-50 outline-offset-0 focus:border-0 focus-visible:ring-0 focus-visible:ring-offset-0"
                       disabled={form.watch("isFree")}
                     />
-                    {/* Is Free Selection Box */}
                     <FormField
                       control={form.control}
                       name="isFree"
@@ -326,9 +400,34 @@ const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
               </FormItem>
             )}
           />
+          <FormField
+            control={form.control}
+            name="eventCapacity"
+            render={({ field }) => (
+              <FormItem className="w-full">
+                <FormControl>
+                  <div className="flex-center h-[54px] w-full overflow-hidden rounded-full bg-grey-50 px-4 py-2">
+                    <Users />
+                    <Input
+                      type="number" // Change to type="number" for numeric input
+                      placeholder="Event Capacity (Optional)"
+                      {...field}
+                      className="input-field"
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        field.onChange(
+                          value === "" ? undefined : Number(value)
+                        );
+                      }}
+                      value={field.value || ""}
+                    />
+                  </div>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
         </div>
-
-        {/* URL */}
         <FormField
           control={form.control}
           name="url"
@@ -336,12 +435,7 @@ const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
             <FormItem className="w-full">
               <FormControl>
                 <div className="flex-center h-[55px] w-full overflow-hidden rounded-full bg-grey-50 px-4 py-2">
-                  <Image
-                    src="/assets/icons/link.svg"
-                    alt="link"
-                    height={24}
-                    width={24}
-                  />
+                  <Link />
                   <Input placeholder="URL" {...field} className="input-field" />
                 </div>
               </FormControl>
@@ -349,6 +443,108 @@ const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
             </FormItem>
           )}
         />
+<div className="flex-center items-center gap-2 h-[54px] w-full overflow-hidden rounded-full text-white px-4 py-2">
+  <UserPlus2 className="mr-2" />
+  <label htmlFor="showCoordinators" className="mr-4 text-white">
+    Include Coordinators
+  </label>
+  <Switch
+    id="showCoordinators"
+    className="h-6 w-11"
+    checked={showCoordinators}
+    onCheckedChange={() => setShowCoordinators(!showCoordinators)}
+  />
+  <Button
+    variant={"outline"}
+    type="button"
+    onClick={() =>
+      setCoordinators([
+        ...coordinators,
+        { name: "", email: "", phone: "" },
+      ])
+    }
+    className="ml-4 font-semibold text-white rounded-l-full rounded-tr-lg hover:text-white hover:bg-black"
+  >
+    Add Coordinator
+    <Plus className="ml-2"/>
+  </Button>
+</div>
+
+<motion.div
+  initial="hidden"
+  animate={showCoordinators ? "visible" : "hidden"}
+  variants={variants}
+  transition={{ duration: 0.3, ease: "easeInOut" }}
+>
+  {coordinators.map((_, index) => (
+    <motion.div
+      key={index}
+      initial="hidden"
+      animate="visible"
+      variants={variants}
+      transition={{ duration: 0.3, ease: "easeInOut" }}
+      className="mb-4 flex flex-col items-center gap-5 md:flex-row"
+    >
+      <FormField
+        control={form.control}
+        name={`coordinators.${index}.name`}
+        render={({ field }) => (
+          <FormItem className="w-full">
+            <FormControl>
+              <Input
+                placeholder="Coordinator Name"
+                {...field}
+                className="input-field"
+              />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+      <FormField
+        control={form.control}
+        name={`coordinators.${index}.email`}
+        render={({ field }) => (
+          <FormItem className="w-full">
+            <FormControl>
+              <Input
+                type="text"
+                placeholder="Coordinator Email"
+                {...field}
+                className="input-field"
+              />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+      <FormField
+        control={form.control}
+        name={`coordinators.${index}.phone`}
+        render={({ field }) => (
+          <FormItem className="w-full">
+            <FormControl>
+              <Input
+                placeholder="Coordinator Phone"
+                {...field}
+                className="input-field"
+              />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+      <button
+        type="button"
+        onClick={() => handleDeleteCoordinator(index)}
+        className="self-center bg-transparent border border-red-500 p-3 hover:bg-black hover:text-white hover:border-white transition-all duration-200 text-red-500 rounded-full"
+      >
+        <Trash2 height={20} width={20}/>
+      </button>
+    </motion.div>
+  ))}
+</motion.div>
+
         <Button
           type="submit"
           size="lg"
