@@ -1,6 +1,8 @@
 # Eventify
 Eventify is a modern web platform designed to facilitate the management and discovery of college events. The website serves as a centralized hub where students and event organizers can connect seamlessly. Users can browse a variety of events, book tickets, and access essential information all in one place.
 
+https://evently-beige-eight.vercel.app/
+
 ## Team Name
 **Zen Dev's**
 
