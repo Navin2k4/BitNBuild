@@ -33,17 +33,12 @@ import {
   Locate,
   LucideIndianRupee,
   Map,
-<<<<<<< HEAD
-=======
   Plus,
   Trash2,
->>>>>>> ea60735ddba4b669a5b3c41c2207733896769523
   UserPlus2,
   Users,
 } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
-<<<<<<< HEAD
-=======
 import { motion } from "framer-motion";
 
 // Animation variants
@@ -51,7 +46,6 @@ const variants = {
   hidden: { opacity: 0, height: 0 },
   visible: { opacity: 1, height: "auto" },
 };
->>>>>>> ea60735ddba4b669a5b3c41c2207733896769523
 
 type EventFormProps = {
   userId: string;
@@ -63,10 +57,6 @@ type EventFormProps = {
 const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
   
   const [files, setFiles] = useState<File[]>([]);
-  const [showCoordinators, setShowCoordinators] = useState(false); // State for toggle
-  const [coordinators, setCoordinators] = useState([
-    { name: "", email: "", phone: "" },
-  ]); // Default state
 
   const [showCoordinators, setShowCoordinators] = useState(false); 
   const [coordinators, setCoordinators] = useState([
@@ -272,11 +262,7 @@ const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
                   <div className="flex-center h-[55px] w-full overflow-hidden rounded-full bg-grey-50 px-4 py-2">
                     <Map />
                     <Input
-<<<<<<< HEAD
-                      placeholder="Map Location URL (Optional)"
-=======
                       placeholder="Map Location URL Embedded Link (Optional)"
->>>>>>> ea60735ddba4b669a5b3c41c2207733896769523
                       {...field}
                       className="input-field"
                     />
@@ -431,17 +417,10 @@ const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
                         const value = e.target.value;
                         field.onChange(
                           value === "" ? undefined : Number(value)
-<<<<<<< HEAD
-                        ); 
-                      }}
-                      value={field.value || ""} 
-                    />  
-=======
                         );
                       }}
                       value={field.value || ""}
                     />
->>>>>>> ea60735ddba4b669a5b3c41c2207733896769523
                   </div>
                 </FormControl>
                 <FormMessage />
@@ -464,90 +443,6 @@ const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
             </FormItem>
           )}
         />
-<<<<<<< HEAD
-        <div className="flex-center h-[54px] w-full overflow-hidden rounded-full text-white px-4 py-2">
-          <UserPlus2 className="mr-2" />
-          <label htmlFor="showCoordinators" className="mr-4 text-white">
-            Include Coordinators
-          </label>
-          <Switch
-            id="showCoordinators"
-            className="h-6 w-11"
-            checked={showCoordinators}
-            onCheckedChange={() => setShowCoordinators(!showCoordinators)}
-          />
-        </div>
-
-        {showCoordinators && (
-          <div>
-            {coordinators.map((_, index) => (
-              <div key={index} className="mb-4 flex flex-col gap-5 md:flex-row">
-                <FormField
-                  control={form.control}
-                  name={`coordinators.${index}.name`}
-                  render={({ field }) => (
-                    <FormItem className="w-full">
-                      <FormControl>
-                        <Input
-                          placeholder="Coordinator Name"
-                          {...field}
-                          className="input-field"
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name={`coordinators.${index}.email`}
-                  render={({ field }) => (
-                    <FormItem className="w-full">
-                      <FormControl>
-                        <Input
-                          type="text"
-                          placeholder="Coordinator Email"
-                          {...field}
-                          className="input-field"
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name={`coordinators.${index}.phone`}
-                  render={({ field }) => (
-                    <FormItem className="w-full">
-                      <FormControl>
-                        <Input
-                          placeholder="Coordinator Phone"
-                          {...field}
-                          className="input-field"
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-            ))}
-            <Button
-              type="button"
-              onClick={() =>
-                setCoordinators([
-                  ...coordinators,
-                  { name: "", email: "", phone: "" },
-                ])
-              }
-              className="mt-2"
-            >
-              Add Coordinator
-            </Button>
-          </div>
-        )}
-=======
 <div className="flex-center items-center gap-2 h-[54px] w-full overflow-hidden rounded-full text-white px-4 py-2">
   <UserPlus2 className="mr-2" />
   <label htmlFor="showCoordinators" className="mr-4 text-white">
@@ -649,7 +544,6 @@ const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
     </motion.div>
   ))}
 </motion.div>
->>>>>>> ea60735ddba4b669a5b3c41c2207733896769523
 
         <Button
           type="submit"
