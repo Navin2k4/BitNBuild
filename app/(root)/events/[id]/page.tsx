@@ -8,10 +8,6 @@ import { formatDateTime } from "@/lib/utils";
 import { SearchParamProps } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
-<<<<<<< HEAD
-import { Button } from "@/components/ui/button";
-=======
->>>>>>> a795834 (Refactory)
 import {
   Card,
   CardContent,
@@ -20,18 +16,6 @@ import {
   CardDescription,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-<<<<<<< HEAD
-import { Separator } from "@/components/ui/separator";
-import {
-  Calendar,
-  MapPin,
-  Share2,
-  User,
-  Clock,
-  ExternalLink,
-} from "lucide-react";
-import CopyLinkButton from "@/components/shared/CopyLinkButton";
-=======
 import {
   Calendar,
   MapPin,
@@ -47,15 +31,11 @@ import CopyLinkButton from "@/components/shared/CopyLinkButton";
 import { Key } from "react";
 import { auth } from "@clerk/nextjs";
 import { hasUserBoughtEvent } from "@/lib/actions/order.action";
->>>>>>> a795834 (Refactory)
 
 const EventDetails = async ({
   params: { id },
   searchParams,
 }: SearchParamProps) => {
-<<<<<<< HEAD
-  const event = await getEventById(id);
-=======
 
   const event = await getEventById(id);
   const { sessionClaims } = auth();
@@ -64,7 +44,6 @@ const EventDetails = async ({
   console.log(isEventCreator);
   
   const isPurchased = await hasUserBoughtEvent(userId, event._id);
->>>>>>> a795834 (Refactory)
 
   const relatedEvents = await getRelatedEventsByCategory({
     categoryId: event.category._id,
@@ -72,19 +51,11 @@ const EventDetails = async ({
     page: searchParams.page as string,
   });
 
-<<<<<<< HEAD
-
-=======
->>>>>>> a795834 (Refactory)
   return (
     <div className=" bg-black pb-24">
       <section className="w-full bg-gradient-to-b pt-24 py-12">
         <div className="container mx-auto px-4">
-<<<<<<< HEAD
-          <Card className=" overflow-hidden  border-none">
-=======
           <Card className="overflow-hidden border-none">
->>>>>>> a795834 (Refactory)
             <div className="flex flex-col lg:flex-row">
               <div className="relative w-full lg:w-1/2 h-64 lg:h-auto shadow-xl">
                 <Image
@@ -97,40 +68,6 @@ const EventDetails = async ({
               </div>
 
               <CardContent className="w-full lg:w-1/2 p-6 lg:p-10 bg-gray-300">
-<<<<<<< HEAD
-                <CardHeader className="p-0 mb-6">
-                  <div className="flex flex-wrap items-center gap-3 mb-4">
-                    <Badge
-                      variant={
-                        event.isFree || event.price == ""
-                          ? "outline"
-                          : "destructive"
-                      }
-                      className="text-lg py-1 px-3 border-white"
-                    >
-                      {event.isFree || event.price == ""
-                        ? "FREE"
-                        : `Rs.${event.price}`}
-                    </Badge>
-                    <Badge
-                      variant="outline"
-                      className="bg-purple-100  border-black text-md py-1 px-3"
-                    >
-                      {event.category.name}
-                    </Badge>
-                  </div>
-                  <CardTitle className="text-3xl font-bold text-gray-800 mb-2">
-                    {event.title}
-                  </CardTitle>
-                  <CardDescription className="text-gray-600 flex items-center">
-                    <User className="h-4 w-4 mr-2" />
-                    Organized by {event.organizer.firstName}{" "}
-                    {event.organizer.lastName}
-                  </CardDescription>
-                </CardHeader>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-=======
               <CardHeader className="p-0 mb-6 relative">
   <div className="flex flex-wrap items-center gap-3 mb-4">
     {isPurchased && (
@@ -183,7 +120,6 @@ const EventDetails = async ({
 </CardHeader>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
->>>>>>> a795834 (Refactory)
                   <div className="flex items-start gap-3">
                     <Calendar className="h-5 w-5 text-red-600 mt-1" />
                     <div>
@@ -213,13 +149,6 @@ const EventDetails = async ({
                       <p className="text-gray-600">{event.location}</p>
                     </div>
                   </div>
-<<<<<<< HEAD
-                </div>
-
-                {/* <Separator className="my-6 text-black"  /> */}
-
-                <div className="space-y-4 mb-8">
-=======
 
                   {/* New Event Capacity Section */}
                   <div className="flex items-start gap-3 ">
@@ -253,7 +182,6 @@ const EventDetails = async ({
                 )}
                 {/* Event Description */}
                 <div className="space-y-4 my-6">
->>>>>>> a795834 (Refactory)
                   <h3 className="text-xl font-semibold text-gray-800">
                     Event Description
                   </h3>
@@ -268,10 +196,6 @@ const EventDetails = async ({
                     Event Website
                   </Link>
                 </div>
-<<<<<<< HEAD
-
-                <CheckoutButton event={event} />
-=======
                 {/* New Coordinators Section */}
                 {event.coordinators && event.coordinators.length > 0 && (
                   <div className="space-y-4 mb-8">
@@ -337,22 +261,14 @@ const EventDetails = async ({
                 ) : (
                   <CheckoutButton event={event} />
                 )}
->>>>>>> a795834 (Refactory)
               </CardContent>
             </div>
           </Card>
         </div>
       </section>
       {/* EVENTS with the same category */}
-<<<<<<< HEAD
-
       <section className="wrapper  flex flex-col gap-8 md:gap-12">
         <h2 className="h2-bold text-[#e41312]">Related Events</h2>
-
-=======
-      <section className="wrapper  flex flex-col gap-8 md:gap-12">
-        <h2 className="h2-bold text-[#e41312]">Related Events</h2>
->>>>>>> a795834 (Refactory)
         <Collection
           data={relatedEvents?.data}
           emptyTitle="No Events Found"

@@ -8,19 +8,11 @@ const CreateEvent = () => {
 
   return (
     <div className="bg-[#1e1f23] pb-8">
-<<<<<<< HEAD
-      <section className="bg-dotted-pattern bg-cover bg-center pt-24 py-2">
-        <h3 className="wrapper h3-bold tracking-widest text-center text-[#e41312] sm:text-left">Create Your Event</h3>
-      </section>
-
-      <div className="wrapper mt-8 ">
-=======
       <section className="bg-cover bg-center pt-24 py-2">
         <h3 className="wrapper h3-bold tracking-widest text-center text-[#e41312] sm:text-left">Create Your Event</h3>
       </section>
 
       <div className="wrapper ">
->>>>>>> a795834 (Refactory)
         <EventForm userId={userId} type="Create" />
       </div>
     </div>

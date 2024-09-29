@@ -14,11 +14,7 @@ const CheckoutButton = ({ event }: { event: IEvent }) => {
   const hasEventFinished = new Date(event.endDateTime) < new Date();
 
   return (
-<<<<<<< HEAD
-    <div className="flex items-center gap-3">
-=======
     <div className="flex items-center justify-center gap-3">
->>>>>>> a795834 (Refactory)
       {/* Cannot Buy Past events */}
       {hasEventFinished ? (
         <p className="p-2 font-bold text-red-400">

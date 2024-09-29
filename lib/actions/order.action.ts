@@ -44,8 +44,6 @@ export const checkoutOrder = async (order: CheckoutOrderParams) => {
 export const createOrder = async (order: CreateOrderParams) => {
   try {
     await connectToDatabase();
-<<<<<<< HEAD
-=======
     const event = await Event.findById(order.eventId);
     if (!event) {
       throw new Error("Event not found.");
@@ -53,17 +51,13 @@ export const createOrder = async (order: CreateOrderParams) => {
     if (event.capacity <= 0) {
       throw new Error("No capacity available for this event.");
     }
->>>>>>> a795834 (Refactory)
     const newOrder = await Order.create({
       ...order,
       event: order.eventId,
       buyer: order.buyerId,
     });
-<<<<<<< HEAD
-=======
     event.eventCapacity -= 1;
     await event.save();
->>>>>>> a795834 (Refactory)
     return JSON.parse(JSON.stringify(newOrder));
   } catch (error) {
     handleError(error);
@@ -114,10 +108,7 @@ export async function getOrdersByEvent({ searchString, eventId }: GetOrdersByEve
           },
           buyerId: '$buyer._id',
           buyerMail: '$buyer.email',
-<<<<<<< HEAD
-=======
           buyerPhone: '$buyer.phone'
->>>>>>> a795834 (Refactory)
         },
       },
       {
@@ -171,9 +162,6 @@ export async function getOrdersByUser({ userId, limit = 3, page }: GetOrdersByUs
   } catch (error) {
     handleError(error)
   }
-<<<<<<< HEAD
-}
-=======
 }
 
 export async function hasUserBoughtEvent(userId: string, eventId: string ) {
@@ -190,4 +178,3 @@ export async function hasUserBoughtEvent(userId: string, eventId: string ) {
     return false; // Handle error appropriately, could also throw error or return null based on your needs
   }
 };
->>>>>>> a795834 (Refactory)
