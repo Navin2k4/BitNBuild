@@ -22,7 +22,6 @@ import DropDown from "./DropDown";
 import { Textarea } from "../ui/textarea";
 import { FileUploader } from "./FileUploader";
 import { useState } from "react";
-import Image from "next/image";
 import { Checkbox } from "../ui/checkbox";
 import { useUploadThing } from "@/lib/uploadthing";
 import { useRouter } from "next/navigation";
@@ -34,10 +33,25 @@ import {
   Locate,
   LucideIndianRupee,
   Map,
+<<<<<<< HEAD
+=======
+  Plus,
+  Trash2,
+>>>>>>> ea60735ddba4b669a5b3c41c2207733896769523
   UserPlus2,
   Users,
 } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
+<<<<<<< HEAD
+=======
+import { motion } from "framer-motion";
+
+// Animation variants
+const variants = {
+  hidden: { opacity: 0, height: 0 },
+  visible: { opacity: 1, height: "auto" },
+};
+>>>>>>> ea60735ddba4b669a5b3c41c2207733896769523
 
 type EventFormProps = {
   userId: string;
@@ -47,12 +61,23 @@ type EventFormProps = {
 };
 
 const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
+  
   const [files, setFiles] = useState<File[]>([]);
   const [showCoordinators, setShowCoordinators] = useState(false); // State for toggle
   const [coordinators, setCoordinators] = useState([
     { name: "", email: "", phone: "" },
   ]); // Default state
 
+  const [showCoordinators, setShowCoordinators] = useState(false); 
+  const [coordinators, setCoordinators] = useState([
+    { name: "", email: "", phone: "" },
+  ]); // Default state
+  const handleDeleteCoordinator = (index:any) => {
+    setCoordinators((prevCoordinators) =>
+      prevCoordinators.filter((_, i) => i !== index)
+    );
+  };
+  
   const initialValues =
     event && type === "Update"
       ? {
@@ -121,6 +146,7 @@ const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
         console.log(error);
       }
     }
+
     if (type === "Update") {
       if (!eventId) {
         router.back();
@@ -246,7 +272,11 @@ const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
                   <div className="flex-center h-[55px] w-full overflow-hidden rounded-full bg-grey-50 px-4 py-2">
                     <Map />
                     <Input
+<<<<<<< HEAD
                       placeholder="Map Location URL (Optional)"
+=======
+                      placeholder="Map Location URL Embedded Link (Optional)"
+>>>>>>> ea60735ddba4b669a5b3c41c2207733896769523
                       {...field}
                       className="input-field"
                     />
@@ -401,10 +431,17 @@ const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
                         const value = e.target.value;
                         field.onChange(
                           value === "" ? undefined : Number(value)
+<<<<<<< HEAD
                         ); 
                       }}
                       value={field.value || ""} 
                     />  
+=======
+                        );
+                      }}
+                      value={field.value || ""}
+                    />
+>>>>>>> ea60735ddba4b669a5b3c41c2207733896769523
                   </div>
                 </FormControl>
                 <FormMessage />
@@ -427,6 +464,7 @@ const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
             </FormItem>
           )}
         />
+<<<<<<< HEAD
         <div className="flex-center h-[54px] w-full overflow-hidden rounded-full text-white px-4 py-2">
           <UserPlus2 className="mr-2" />
           <label htmlFor="showCoordinators" className="mr-4 text-white">
@@ -509,6 +547,109 @@ const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
             </Button>
           </div>
         )}
+=======
+<div className="flex-center items-center gap-2 h-[54px] w-full overflow-hidden rounded-full text-white px-4 py-2">
+  <UserPlus2 className="mr-2" />
+  <label htmlFor="showCoordinators" className="mr-4 text-white">
+    Include Coordinators
+  </label>
+  <Switch
+    id="showCoordinators"
+    className="h-6 w-11"
+    checked={showCoordinators}
+    onCheckedChange={() => setShowCoordinators(!showCoordinators)}
+  />
+  <Button
+    variant={"outline"}
+    type="button"
+    onClick={() =>
+      setCoordinators([
+        ...coordinators,
+        { name: "", email: "", phone: "" },
+      ])
+    }
+    className="ml-4 font-semibold text-white rounded-l-full rounded-tr-lg hover:text-white hover:bg-black"
+  >
+    Add Coordinator
+    <Plus className="ml-2"/>
+  </Button>
+</div>
+
+<motion.div
+  initial="hidden"
+  animate={showCoordinators ? "visible" : "hidden"}
+  variants={variants}
+  transition={{ duration: 0.3, ease: "easeInOut" }}
+>
+  {coordinators.map((_, index) => (
+    <motion.div
+      key={index}
+      initial="hidden"
+      animate="visible"
+      variants={variants}
+      transition={{ duration: 0.3, ease: "easeInOut" }}
+      className="mb-4 flex flex-col items-center gap-5 md:flex-row"
+    >
+      <FormField
+        control={form.control}
+        name={`coordinators.${index}.name`}
+        render={({ field }) => (
+          <FormItem className="w-full">
+            <FormControl>
+              <Input
+                placeholder="Coordinator Name"
+                {...field}
+                className="input-field"
+              />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+      <FormField
+        control={form.control}
+        name={`coordinators.${index}.email`}
+        render={({ field }) => (
+          <FormItem className="w-full">
+            <FormControl>
+              <Input
+                type="text"
+                placeholder="Coordinator Email"
+                {...field}
+                className="input-field"
+              />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+      <FormField
+        control={form.control}
+        name={`coordinators.${index}.phone`}
+        render={({ field }) => (
+          <FormItem className="w-full">
+            <FormControl>
+              <Input
+                placeholder="Coordinator Phone"
+                {...field}
+                className="input-field"
+              />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+      <button
+        type="button"
+        onClick={() => handleDeleteCoordinator(index)}
+        className="self-center bg-transparent border border-red-500 p-3 hover:bg-black hover:text-white hover:border-white transition-all duration-200 text-red-500 rounded-full"
+      >
+        <Trash2 height={20} width={20}/>
+      </button>
+    </motion.div>
+  ))}
+</motion.div>
+>>>>>>> ea60735ddba4b669a5b3c41c2207733896769523
 
         <Button
           type="submit"
