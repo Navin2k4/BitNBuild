@@ -35,7 +35,11 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+<<<<<<< HEAD
 import { formatDateTime, formatPrice } from "@/lib/utils";
+=======
+import { formatDateTime, formatPhoneNumber, formatPrice } from "@/lib/utils";
+>>>>>>> a795834 (Refactory)
 
 export type Order = {
   _id: string;
@@ -47,6 +51,7 @@ export type Order = {
 };
 
 export const columns: ColumnDef<Order>[] = [
+<<<<<<< HEAD
   {
     accessorKey: "_id",
     header: "Order ID",
@@ -56,6 +61,17 @@ export const columns: ColumnDef<Order>[] = [
     accessorKey: "paymentId",
     header: "Order Id",
     cell: ({ row }) => row.getValue("paymentId"),
+=======
+  // {
+  //   accessorKey: "_id",
+  //   header: "Order ID",
+  //   cell: ({ row }) => row.getValue("_id"),
+  // },
+  {
+    accessorKey: "buyerPhone",
+    header: "Phone",
+    cell: ({ row }) => formatPhoneNumber(row.getValue("buyerPhone")),
+>>>>>>> a795834 (Refactory)
   },
   {
     accessorKey: "eventTitle",
@@ -86,6 +102,14 @@ export const columns: ColumnDef<Order>[] = [
     cell: ({ row }) => formatDateTime(row.getValue("createdAt")).dateTime,
   },
   {
+<<<<<<< HEAD
+=======
+    accessorKey: "paymentId",
+    header: "Order Id",
+    cell: ({ row }) => row.getValue("paymentId"),
+  },
+  {
+>>>>>>> a795834 (Refactory)
     accessorKey: "totalAmount",
     header: "Amount",
     cell: ({ row }) => formatPrice(row.getValue("totalAmount")),
@@ -127,7 +151,11 @@ export function DataTableDemo({ data }: DataTableDemoProps) {
   return (
     <div className="w-full p-3 bg-gray-200 rounded-lg">
       <div className="flex items-center py-4">
+<<<<<<< HEAD
         <Input
+=======
+        {/* <Input
+>>>>>>> a795834 (Refactory)
           placeholder="Filter by email..."
           value={
             (table.getColumn("buyerMail")?.getFilterValue() as string) ?? ""
@@ -136,7 +164,11 @@ export function DataTableDemo({ data }: DataTableDemoProps) {
             table.getColumn("buyerMail")?.setFilterValue(event.target.value)
           }
           className="max-w-sm input-field"
+<<<<<<< HEAD
         />
+=======
+        /> */}
+>>>>>>> a795834 (Refactory)
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="">
@@ -215,11 +247,19 @@ export function DataTableDemo({ data }: DataTableDemoProps) {
         </Table>
       </div>
       <div className="flex items-center justify-end space-x-2 py-4">
+<<<<<<< HEAD
         <div className="flex-1 text-sm text-muted-foreground">
           {table.getFilteredSelectedRowModel().rows.length} of{" "}
           {table.getFilteredRowModel().rows.length} row(s) selected.
         </div>
         <div className="space-x-2">
+=======
+        {/* <div className="flex-1 text-sm text-muted-foreground">
+          {table.getFilteredSelectedRowModel().rows.length} of{" "}
+          {table.getFilteredRowModel().rows.length} row(s) selected.
+        </div> */}
+        <div className="space-x-2 px-2">
+>>>>>>> a795834 (Refactory)
           <Button
             variant="outline"
             size="sm"

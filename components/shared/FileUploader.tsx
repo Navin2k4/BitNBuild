@@ -6,6 +6,10 @@ import { generateClientDropzoneAccept } from 'uploadthing/client'
 
 import { Button } from '@/components/ui/button'
 import { convertFileToUrl } from '@/lib/utils'
+<<<<<<< HEAD
+=======
+import { Upload } from 'lucide-react'
+>>>>>>> a795834 (Refactory)
 
 type FileUploaderProps = {
   onFieldChange: (url: string) => void
@@ -42,10 +46,17 @@ export function FileUploader({ imageUrl, onFieldChange, setFiles }: FileUploader
         </div>
       ) : (
         <div className="flex-center flex-col py-5 text-grey-500">
+<<<<<<< HEAD
           <img src="/assets/icons/upload.svg" width={77} height={77} alt="file upload" />
           <h3 className="mb-2 mt-2">Drag photo here</h3>
           <p className="p-medium-12 mb-4">SVG, PNG, JPG</p>
           <Button type="button" className="rounded-full">
+=======
+          <Upload width={77} height={77}/>
+          <h3 className="mb-2 mt-2">Drag photo here</h3>
+          <p className="p-medium-12 mb-4">SVG, PNG, JPG</p>
+          <Button type="button" className="rounded-full hover:text-whote hover:bg-black bg-red-500 text-white border border-black " >
+>>>>>>> a795834 (Refactory)
             Select from computer
           </Button>
         </div>

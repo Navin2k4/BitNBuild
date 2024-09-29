@@ -74,7 +74,10 @@ module.exports = withUt({
         poppins: ['var(--font-poppins)'],
       },
       backgroundImage: {
+<<<<<<< HEAD
         'dotted-pattern': "url('/assets/images/dotted-pattern.png')",
+=======
+>>>>>>> a795834 (Refactory)
         'hero-img': "url('/assets/images/hero.png')",
       },
       borderRadius: {

@@ -45,6 +45,16 @@ export const formatDateTime = (dateString: Date) => {
   }
 }
 
+<<<<<<< HEAD
+=======
+export const formatPhoneNumber = (phoneNumber: string) => {
+  const cleanedNumber = phoneNumber.replace(/^\+|91/g, '').trim();
+  const splitNumbers = cleanedNumber.match(/.{1,5}/g);
+  const formattedNumber = splitNumbers ? splitNumbers.join('-') : cleanedNumber;
+  return formattedNumber;
+};
+
+>>>>>>> a795834 (Refactory)
 export const convertFileToUrl = (file: File) => URL.createObjectURL(file)
 
 export const formatPrice = (price: string) => {

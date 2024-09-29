@@ -24,8 +24,18 @@ export const headerLinks = [
     price: '',
     isFree: false,
     url: '',
+<<<<<<< HEAD
   }
 
+=======
+    eventCapacity: 0, // Default for event capacity (optional)
+    mapLocation: '', // Default for map location (optional)
+    coordinators: [{ name: '', email: '', phone: '' }], // Default for one coordinator with mandatory fields
+    registrationEndDate: new Date(), // Default for registration end date
+  };
+  
+  
+>>>>>>> a795834 (Refactory)
   export const featureCards = [
     {
       id: 1,

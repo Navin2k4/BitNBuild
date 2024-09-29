@@ -36,6 +36,11 @@ export async function createEvent({ userId, event, path }: CreateEventParams) {
     if (!organizer) throw new Error('Organizer not found')
 
     const newEvent = await Event.create({ ...event, category: event.categoryId, organizer: userId })
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> a795834 (Refactory)
     revalidatePath(path)
 
     return JSON.parse(JSON.stringify(newEvent))
@@ -44,6 +49,12 @@ export async function createEvent({ userId, event, path }: CreateEventParams) {
   }
 }
 
+<<<<<<< HEAD
+=======
+
+
+
+>>>>>>> a795834 (Refactory)
 // GET ONE EVENT BY ID
 export async function getEventById(eventId: string) {
   try {
